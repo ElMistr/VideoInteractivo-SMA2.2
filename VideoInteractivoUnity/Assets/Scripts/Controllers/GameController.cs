@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
@@ -10,6 +11,24 @@ public class GameController : MonoBehaviour
     public ChooseController chooseController;
     public AudioController audioController;
 
+    [Header("Location UI")]
+
+    public LocationUI locationUI;
+
+    [Header("Visual Effects")]
+
+    public VignetteController vignetteController;
+
+    public BrightnessController brightnessController;
+
+    [Header("Exploración")]
+
+    public TextMeshProUGUI discoveryText;
+
+    private HashSet<string> discoveredPlaces =
+        new HashSet<string>();
+
+   
     private State state = State.IDLE;
 
     private List<StoryScene> history = new List<StoryScene>();
@@ -94,6 +113,31 @@ public class GameController : MonoBehaviour
         if (scene is StoryScene)
         {
             StoryScene storyScene = scene as StoryScene;
+            // VIÑETA
+
+            if (storyScene.darkVignette)
+            {
+                vignetteController.ShowVignette();
+            }
+            else
+            {
+                vignetteController.HideVignette();
+            }
+
+            // BRILLO
+
+            if (storyScene.increaseBrightness)
+            {
+                brightnessController.IncreaseBrightness();
+            }
+            else
+            {
+                brightnessController.ResetBrightness();
+            }
+            locationUI.ShowLocation(
+      storyScene.locationName
+  );
+            RegisterDiscovery(storyScene);
             history.Add(storyScene);
             PlayAudio(storyScene.sentences[sentenceIndex + 1]);
             if (isAnimated)
@@ -122,5 +166,17 @@ public class GameController : MonoBehaviour
     private void PlayAudio(StoryScene.Sentence sentence)
     {
         audioController.PlayAudio(sentence.music, sentence.sound);
+    }
+    private void RegisterDiscovery(StoryScene scene)
+    {
+        if (scene.countsAsDiscovery)
+        {
+            discoveredPlaces.Add(scene.locationName);
+
+            discoveryText.text =
+                "Espacios descubiertos: "
+                + discoveredPlaces.Count
+                + "/3";
+        }
     }
 }

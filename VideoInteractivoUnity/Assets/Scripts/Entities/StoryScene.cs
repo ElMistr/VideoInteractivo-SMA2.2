@@ -7,6 +7,16 @@ public class StoryScene : GameScene
 {
     public List<Sentence> sentences;
     public Sprite background;
+    [Header("Exploración")]
+
+    public string locationName;
+
+    public bool countsAsDiscovery = false;
+    [Header("Visual Effects")]
+
+    public bool darkVignette;
+
+    public bool increaseBrightness;
     public GameScene nextScene;
 
     [System.Serializable]
