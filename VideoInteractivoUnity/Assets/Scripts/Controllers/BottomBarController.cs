@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -107,7 +107,7 @@ public class BottomBarController : MonoBehaviour
 
     public void HideSprites()
     {
-        while(spritesPrefab.transform.childCount > 0)
+        while (spritesPrefab.transform.childCount > 0)
         {
             DestroyImmediate(spritesPrefab.transform.GetChild(0).gameObject);
         }
@@ -133,7 +133,7 @@ public class BottomBarController : MonoBehaviour
         {
             barText.text += text[wordIndex];
             yield return new WaitForSeconds(speedFactor * 0.05f);
-            if(++wordIndex == text.Length)
+            if (++wordIndex == text.Length)
             {
                 state = State.COMPLETED;
                 break;
@@ -144,7 +144,7 @@ public class BottomBarController : MonoBehaviour
     private void ActSpeakers(bool isAnimated = true)
     {
         List<StoryScene.Sentence.Action> actions = currentScene.sentences[sentenceIndex].actions;
-        for(int i = 0; i < actions.Count; i++)
+        for (int i = 0; i < actions.Count; i++)
         {
             ActSpeaker(actions[i], isAnimated);
         }
