@@ -10,6 +10,8 @@ public class GameController : MonoBehaviour
     public SpriteSwitcher backgroundController;
     public ChooseController chooseController;
     public AudioController audioController;
+    public GlitchController glitchController;
+    public OrbSpawner orbSpawner;
 
     [Header("Location UI")]
 
@@ -113,6 +115,16 @@ public class GameController : MonoBehaviour
         if (scene is StoryScene)
         {
             StoryScene storyScene = scene as StoryScene;
+
+            if (storyScene.activateGlitch)
+            {
+                glitchController.ActivateGlitch();
+                orbSpawner.SpawnOrbs();
+            }
+            else
+            {
+                glitchController.RemoveGlitch();
+            }
             // VIÑETA
 
             if (storyScene.darkVignette)
